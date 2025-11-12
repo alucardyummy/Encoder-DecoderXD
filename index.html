@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🩸Vaelarian - Encode or Decode</title>
+<link rel="icon" type="image/png" href="decoder.encoder.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+@font-face {
+  font-family: 'DoctorGlitch';
+  src: url('DoctorGlitch.otf') format('opentype');
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow-x:hidden;
+  font-family:'DoctorGlitch',sans-serif;
+  color:white;
+}
+
+/* === Fundo fixo e blur total === */
+.bg-layer{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background:url('kangback.jpg') no-repeat center center;
+  background-size:cover;
+}
+.bg-blur{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  backdrop-filter:blur(20px) brightness(0.4);
+  -webkit-backdrop-filter:blur(20px) brightness(0.4);
+}
+
+/* === Layout central === */
+body{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  gap:1.5rem;
+}
+
+/* === Caixa principal 3:4 === */
+.container{
+  aspect-ratio:3/4;
+  width:90%;
+  max-width:850px;
+  max-height:90vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:35px;
+  padding:4rem 3.5rem;
+  text-align:center;
+  box-shadow:0 0 60px rgba(255,0,0,0.15);
+  animation:fadeIn 1.2s ease forwards;
+  transition:all 0.4s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(0.97) translateY(25px);}
+  to{opacity:1;transform:scale(1) translateY(0);}
+}
+
+/* === Responsivo === */
+@media(max-width:768px){
+  .container{width:92%;max-height:88vh;padding:3rem 2rem;border-radius:28px;}
+  h2{font-size:2rem;}
+}
+@media(max-width:480px){
+  .container{width:90%;aspect-ratio:unset;min-height:85vh;}
+  h2{font-size:1.8rem;}
+}
+
+/* === Título === */
+h2{
+  font-size:2.6rem;
+  color:rgba(255,0,0,0.95);
+  text-shadow:0 0 18px rgba(255,0,0,0.35);
+  margin-bottom:2.8rem;
+}
+
+/* === Tabs === */
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:1.3rem;
+  margin-bottom:2.2rem;
+}
+.tab{
+  padding:1rem 2.5rem;
+  border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  color:rgba(255,255,255,0.7);
+  cursor:pointer;
+  font-size:1.1rem;
+  letter-spacing:0.5px;
+  transition:all 0.3s ease;
+}
+.tab:hover{background:rgba(255,255,255,0.15);}
+.tab.active{
+  background:rgba(255,0,0,0.25);
+  box-shadow:0 0 12px rgba(255,0,0,0.3);
+  color:white;
+}
+
+/* === Fade sections === */
+.fade-section{
+  opacity:0;
+  width:100%;
+  display:none;
+  transition:opacity 0.6s ease;
+}
+.fade-section.active{
+  opacity:1;
+  display:block;
+}
+
+/* === Textarea === */
+textarea{
+  width:100%;
+  height:7rem;
+  border-radius:14px;
+  border:none;
+  outline:none;
+  padding:1.3rem;
+  resize:none;
+  font-size:1.1rem;
+  background:rgba(255,255,255,0.05);
+  color:white;
+  backdrop-filter:blur(6px);
+  transition:0.3s;
+}
+textarea::placeholder{
+  color:rgba(255,255,255,0.4);
+  font-style:italic;
+}
+textarea:focus{
+  box-shadow:0 0 15px rgba(255,0,0,0.25);
+}
+
+/* === Botão === */
+button{
+  margin-top:1.8rem;
+  padding:1rem 2.8rem;
+  font-size:1.1rem;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background:rgba(255,255,255,0.05);
+  color:white;
+  transition:all 0.3s;
+  font-family:inherit;
+}
+button:hover{
+  background:rgba(255,0,0,0.25);
+  box-shadow:0 0 15px rgba(255,0,0,0.25);
+}
+
+/* === Saída === */
+#saida{
+  margin-top:2rem;
+  padding:1.5rem;
+  border-radius:14px;
+  background:rgba(255,255,255,0.05);
+  color:white;
+  white-space:pre-wrap;
+  font-size:1.1rem;
+  backdrop-filter:blur(6px);
+  min-height:3.5rem;
+  transition:all 0.3s ease;
+}
+
+/* === Assinatura (alucardrs) === */
+.footer{
+  font-family:'Poppins',sans-serif;
+  font-size:1.1rem;
+  color:rgba(255,0,0,0.9);
+  text-shadow:0 0 12px rgba(255,0,0,0.3);
+  margin-bottom:1rem;
+  letter-spacing:1px;
+  user-select:none;
+}
+</style>
+</head>
+
+<body>
+  <div class="bg-layer"></div>
+  <div class="bg-blur"></div>
+
+  <div class="container">
+    <h2>🩸Vaelarian - Encode or Decode</h2>
+
+    <div class="tabs">
+      <div class="tab active" id="tabEncode">Encode</div>
+      <div class="tab" id="tabDecode">Decode</div>
+    </div>
+
+    <div id="encodeSection" class="fade-section active">
+      <textarea id="inputEncode" placeholder="Type your text to encode..."></textarea>
+      <button onclick="codificar()">Encode</button>
+    </div>
+
+    <div id="decodeSection" class="fade-section">
+      <textarea id="inputDecode" placeholder="Paste your encoded text..."></textarea>
+      <button onclick="decodificar()">Decode</button>
+    </div>
+
+    <div id="saida">(output appears here)</div>
+  </div>
+
+  <div class="footer">alucardrs</div>
+
+<script>
+const alfabetos={
+  A:"ಅ",B:"𐌁",C:"চ",D:"Д",E:"え",F:"ᕓ",G:"ಗ",H:"𐌇",I:"ই",J:"Ж",
+  K:"き",L:"ᒪ",M:"ಮ",N:"𐌍",O:"ও",P:"П",Q:"ಕ್ವ",R:"ᕒ",S:"ಸ",T:"𐌕",
+  U:"উ",V:"В",W:"ゔぃ",X:"ᐊᔅ",Y:"ಯ",Z:"𐌆"
+};
+const mapaInvertido={};
+for(const l in alfabetos){mapaInvertido[alfabetos[l]]=l;}
+
+function codificar(){
+  const t=document.getElementById("inputEncode").value.toUpperCase();
+  let r="";
+  for(const c of t){r+=alfabetos[c]||c;}
+  document.getElementById("saida").textContent=r;
+}
+function decodificar(){
+  const t=document.getElementById("inputDecode").value;
+  let r="",i=0;
+  while(i<t.length){
+    let e=false;
+    for(let l=3;l>0;l--){
+      const s=t.slice(i,i+l);
+      if(mapaInvertido[s]){
+        r+=mapaInvertido[s];
+        i+=l;
+        e=true;
+        break;
+      }
+    }
+    if(!e){r+=t[i];i++;}
+  }
+  document.getElementById("saida").textContent=r;
+}
+
+const tabE=document.getElementById("tabEncode");
+const tabD=document.getElementById("tabDecode");
+const secE=document.getElementById("encodeSection");
+const secD=document.getElementById("decodeSection");
+
+tabE.onclick=()=>{
+  tabE.classList.add("active");
+  tabD.classList.remove("active");
+  secD.classList.remove("active");
+  secE.classList.add("active");
+  document.getElementById("saida").textContent="(output appears here)";
+};
+tabD.onclick=()=>{
+  tabD.classList.add("active");
+  tabE.classList.remove("active");
+  secE.classList.remove("active");
+  secD.classList.add("active");
+  document.getElementById("saida").textContent="(output appears here)";
+};
+</script>
+</body>
+</html>
